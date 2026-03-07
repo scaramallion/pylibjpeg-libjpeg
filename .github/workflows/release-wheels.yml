@@ -20,7 +20,7 @@ jobs:
     - uses: actions/setup-python@v6
       name: Install Python
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
     - name: Build sdist
       run: |
@@ -29,7 +29,7 @@ jobs:
         poetry build -f sdist
 
     - name: Store artifacts
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: sdist
         path: ./dist
@@ -43,9 +43,6 @@ jobs:
         include:
           # Windows 32 bit
           - os: windows-latest
-            python: 39
-            platform_id: win32
-          - os: windows-latest
             python: 310
             platform_id: win32
           - os: windows-latest
@@ -56,13 +53,13 @@ jobs:
             platform_id: win32
           - os: windows-latest
             python: 313
+            platform_id: win32
+          - os: windows-latest
+            python: 314
             platform_id: win32
 
           # Windows 64 bit
           - os: windows-latest
-            python: 39
-            platform_id: win_amd64
-          - os: windows-latest
             python: 310
             platform_id: win_amd64
           - os: windows-latest
@@ -73,14 +70,13 @@ jobs:
             platform_id: win_amd64
           - os: windows-latest
             python: 313
+            platform_id: win_amd64
+          - os: windows-latest
+            python: 314
             platform_id: win_amd64
 
           # Linux 64 bit manylinux2014
           - os: ubuntu-latest
-            python: 39
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
-          - os: ubuntu-latest
             python: 310
             platform_id: manylinux_x86_64
             manylinux_image: manylinux2014
@@ -94,14 +90,15 @@ jobs:
             manylinux_image: manylinux2014
           - os: ubuntu-latest
             python: 313
+            platform_id: manylinux_x86_64
+            manylinux_image: manylinux2014
+          - os: ubuntu-latest
+            python: 314
             platform_id: manylinux_x86_64
             manylinux_image: manylinux2014
 
           # Linux aarch64
           - os: ubuntu-latest
-            python: 39
-            platform_id: manylinux_aarch64
-          - os: ubuntu-latest
             python: 310
             platform_id: manylinux_aarch64
           - os: ubuntu-latest
@@ -112,23 +109,26 @@ jobs:
             platform_id: manylinux_aarch64
           - os: ubuntu-latest
             python: 313
+            platform_id: manylinux_aarch64
+          - os: ubuntu-latest
+            python: 314
             platform_id: manylinux_aarch64
 
           # MacOS x86_64
-          - os: macos-12
-            python: 39
-            platform_id: macosx_x86_64
-          - os: macos-12
+          - os: macos-26-intel
             python: 310
             platform_id: macosx_x86_64
-          - os: macos-12
+          - os: macos-26-intel
             python: 311
             platform_id: macosx_x86_64
-          - os: macos-12
+          - os: macos-26-intel
             python: 312
             platform_id: macosx_x86_64
-          - os: macos-12
+          - os: macos-26-intel
             python: 313
+            platform_id: macosx_x86_64
+          - os: macos-26-intel
+            python: 314
             platform_id: macosx_x86_64
 
     steps:
@@ -145,12 +145,12 @@ jobs:
     - uses: actions/setup-python@v6
       name: Install Python
       with:
-        python-version: '3.9'
+        python-version: '3.11'
 
     - name: Install cibuildwheel
       run: |
         python -m pip install -U pip
-        python -m pip install cibuildwheel>=2.21
+        python -m pip install cibuildwheel>=3.4
 
     - name: Build wheels
       env:
@@ -165,7 +165,7 @@ jobs:
         python -m cibuildwheel --output-dir dist
 
     - name: Store artifacts
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: wheel-${{ matrix.python }}-${{ matrix.platform_id }}
         path: ./dist
@@ -179,9 +179,6 @@ jobs:
         include:
         # MacOS arm64
         - os: macos-14
-          python: 39
-          platform_id: macosx_arm64
-        - os: macos-14
           python: 310
           platform_id: macosx_arm64
         - os: macos-14
@@ -193,6 +190,9 @@ jobs:
         - os: macos-14
           python: 313
           platform_id: macosx_arm64
+        - os: macos-14
+          python: 314
+          platform_id: macosx_arm64
 
     steps:
     - uses: actions/checkout@v6
@@ -202,10 +202,10 @@ jobs:
     - uses: actions/setup-python@v6
       name: Install Python
       with:
-        python-version: '3.9'
+        python-version: '3.11'
 
     - name: Install cibuildwheel
-      run: python -m pip install cibuildwheel>=2.21 wheel>=0.42
+      run: python -m pip install cibuildwheel>=3.4 wheel>=0.42
 
     - name: Build wheels
       env:
@@ -216,7 +216,7 @@ jobs:
         python -m cibuildwheel --output-dir dist
 
     - name: Store artifacts
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: wheel-${{ matrix.python }}-${{ matrix.platform_id }}
         path: ./dist/*.whl
@@ -239,7 +239,7 @@ jobs:
   #       python-version: ${{ matrix.python-version }}
   #
   #   - name: Download the wheels
-  #     uses: actions/download-artifact@v7
+  #     uses: actions/download-artifact@v8
   #     with:
   #       path: dist/
   #       merge-multiple: true
@@ -287,7 +287,7 @@ jobs:
 
     steps:
     - name: Download the wheels
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         path: dist/
         merge-multiple: true
